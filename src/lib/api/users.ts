@@ -11,3 +11,21 @@ export async function createUser(email: string, password_hash: string) {
 
   return user;
 }
+
+export async function getUsers() {
+  const users = await db.user.findMany({
+    select: {
+      id: true,
+      email: true,
+      name: true,
+      createdAt: true,
+      updatedAt: true,
+      // Don't return password or sensitive fields
+    },
+    orderBy: {
+      createdAt: 'desc',
+    },
+  });
+
+  return users;
+}

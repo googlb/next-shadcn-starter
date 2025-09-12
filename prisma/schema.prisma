@@ -11,15 +11,114 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
+// =============================================================================
+// Authentication & User Management
+// =============================================================================
+
 model User {
-  id                   String    @id @default(cuid())
-  name                 String?
-  email                String    @unique
-  password             String? // For credential login
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+  password      String? // For credential login
+  
+  // Password reset fields (camelCase for consistency)
   passwordResetToken   String?   @unique
   passwordResetExpires DateTime?
-  createdAt            DateTime  @default(now())
-  updatedAt            DateTime  @updatedAt
+  
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  accounts Account[]
+  sessions Session[]
+  posts    Post[]
+
+  @@index([email])
+  @@index([passwordResetToken])
+  @@map("users")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  
+  // OAuth tokens (snake_case to match OAuth standards)
+  refreshToken     String? @db.Text @map("refresh_token")
+  accessToken      String? @db.Text @map("access_token")
+  expiresAt        Int?             @map("expires_at")
+  tokenType        String?          @map("token_type")
+  scope            String?
+  idToken          String? @db.Text @map("id_token")
+  sessionState     String?          @map("session_state")
+  
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([sessionToken])
+  @@map("sessions")
+}
+
+// =============================================================================
+// Content Management
+// =============================================================================
+
+model Post {
+  id        String   @id @default(cuid())
+  title     String   @db.VarChar(255)
+  slug      String?  @unique @db.VarChar(255)
+  content   String?  @db.Text
+  excerpt   String?  @db.VarChar(500)
+  published Boolean  @default(false)
+  
+  // SEO fields
+  metaTitle       String? @db.VarChar(60)
+  metaDescription String? @db.VarChar(160)
+  
+  // Publishing
+  publishedAt DateTime?
+  authorId    String
+  
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  @@index([authorId])
+  @@index([published])
+  @@index([slug])
+  @@index([publishedAt])
+  @@index([createdAt])
+  @@map("posts")
 }
