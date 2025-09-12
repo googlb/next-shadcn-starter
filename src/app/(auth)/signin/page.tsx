@@ -16,6 +16,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { signIn } from "next-auth/react";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -47,8 +49,16 @@ export default function SignInPage() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-12">
       <div className="mx-auto grid w-[350px] gap-6">
+        <div className="flex items-center gap-2">
+          <Link href="/auth">
+            <Button variant="ghost" size="sm">
+              <ArrowLeft className="h-4 w-4 mr-1" />
+              Back
+            </Button>
+          </Link>
+        </div>
         <div className="grid gap-2 text-center">
-          <h1 className="text-3xl font-bold">Sign In</h1>
+          <h1 className="text-3xl font-bold">Sign In with Email</h1>
           <p className="text-balance text-muted-foreground">
             Enter your email below to login to your account
           </p>
@@ -84,13 +94,11 @@ export default function SignInPage() {
             <Button type="submit" className="w-full" disabled={isPending}>
               {isPending ? "Signing In..." : "Sign In"}
             </Button>
-            <Button
-              variant="outline"
-              className="w-full"
-              onClick={() => signIn("github", { callbackUrl: "/" })}
-            >
-              Sign In with GitHub
-            </Button>
+            <div className="text-center">
+              <Link href="/forgot-password" className="text-sm text-muted-foreground hover:text-primary">
+                Forgot your password?
+              </Link>
+            </div>
           </form>
         </Form>
       </div>

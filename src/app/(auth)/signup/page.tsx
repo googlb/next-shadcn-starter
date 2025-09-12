@@ -18,6 +18,8 @@ import {
 } from "@/components/ui/form";
 import { createUser } from "@/lib/api/users";
 import { hash } from "bcryptjs";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -45,8 +47,16 @@ export default function SignUpPage() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-12">
       <div className="mx-auto grid w-[350px] gap-6">
+        <div className="flex items-center gap-2">
+          <Link href="/auth">
+            <Button variant="ghost" size="sm">
+              <ArrowLeft className="h-4 w-4 mr-1" />
+              Back
+            </Button>
+          </Link>
+        </div>
         <div className="grid gap-2 text-center">
-          <h1 className="text-3xl font-bold">Sign Up</h1>
+          <h1 className="text-3xl font-bold">Create Account</h1>
           <p className="text-balance text-muted-foreground">
             Enter your email below to create your account
           </p>
@@ -80,10 +90,16 @@ export default function SignUpPage() {
               )}
             />
             <Button type="submit" className="w-full" disabled={isPending}>
-              {isPending ? "Signing Up..." : "Sign Up"}
+              {isPending ? "Creating Account..." : "Create Account"}
             </Button>
           </form>
         </Form>
+        <div className="text-center text-sm">
+          Already have an account?{" "}
+          <Link href="/signin" className="text-primary hover:underline">
+            Sign in
+          </Link>
+        </div>
       </div>
     </div>
   );
