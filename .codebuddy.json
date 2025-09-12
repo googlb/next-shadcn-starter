@@ -1,0 +1,32 @@
+{
+  "mcpServers": {
+    "supabase": {
+      "type": "http",
+      "url": "https://your-project.supabase.co/rest/v1",
+      "headers": {
+        "apikey": "${SUPABASE_ANON_KEY}",
+        "Authorization": "Bearer ${SUPABASE_SERVICE_ROLE_KEY}",
+        "Content-Type": "application/json"
+      },
+      "description": "Supabase database and API access"
+    },
+    "context7": {
+      "type": "sse",
+      "url": "https://api.context7.com/mcp/sse",
+      "headers": {
+        "Authorization": "Bearer ${CONTEXT7_API_KEY}",
+        "X-API-Version": "v1"
+      },
+      "description": "Context7 AI context management service"
+    },
+    "figma": {
+      "type": "http",
+      "url": "https://api.figma.com/v1",
+      "headers": {
+        "Authorization": "Bearer ${FIGMA_ACCESS_TOKEN}",
+        "Content-Type": "application/json"
+      },
+      "description": "Figma design API access"
+    }
+  }
+}

@@ -31,9 +31,16 @@ The tech stack includes:
     ```
 
 2.  **Set up environment variables:**
-    Copy the example environment file and add your database connection string:
+    Copy the example environment file and add your database connection string, a secret for NextAuth, and your GitHub OAuth credentials:
     ```bash
     cp .env.example .env
+    ```
+    In the `.env` file, add the following:
+    ```
+    DATABASE_URL="postgresql://USER:PASSWORD@HOST:PORT/DATABASE"
+    NEXTAUTH_SECRET="your-secret-here"
+    GITHUB_ID="your-github-id"
+    GITHUB_SECRET="your-github-secret"
     ```
 
 3.  **Sync the database:**
