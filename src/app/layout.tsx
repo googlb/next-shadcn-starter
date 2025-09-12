@@ -1,5 +1,6 @@
+// src/app/layout.tsx
+
 import { ClerkProvider } from '@/components/clerk-provider'
-import { Header } from '@/components/header'
 import { ThemeProvider } from '@/components/theme-provider'
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
@@ -27,10 +28,18 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <html lang="en" className="h-full" suppressHydrationWarning>
-        <body className={`${geistSans.variable} ${geistMono.variable} flex min-h-full flex-col antialiased`}>
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-            <Header />
+      <html
+        lang="en"
+        className="h-full"
+        suppressHydrationWarning
+      >
+        <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
             {children}
           </ThemeProvider>
         </body>
