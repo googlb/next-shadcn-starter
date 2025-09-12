@@ -1,36 +1,145 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<div align="right">
+  <strong><a href="./README.md">English</a></strong> | <a href="./README.zh-CN.md">简体中文</a>
+</div>
 
-## Getting Started
+# Next-Shadcn-Starter
 
-First, run the development server:
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/googlb/next-shadcn-starter/pulls)
+
+🚀 An opinionated, production-ready starter for building modern, full-stack web applications. Includes Next.js 14, Shadcn/ui, TypeScript, Prisma, Auth.js (Next-Auth), Tailwind CSS, and follows industry best practices.
+
+## ✨ Philosophy
+
+This project aims to be an "opinionated" boilerplate. It's more than just a collection of technologies; it's a well-thought-out engineering solution designed to achieve:
+
+- **Extreme Type Safety:** A robust, end-to-end type-safe pipeline from your database to your UI.
+- **Clear Architectural Layers:** A strict separation of concerns between UI, business logic, and data access layers, ensuring high cohesion and low coupling.
+- **Optimal Developer Experience:** Integrated with automated tools and modern libraries to maximize productivity and code quality.
+- **Production-Ready:** Out-of-the-box authentication, database configuration, and deployment optimizations.
+
+## 🚀 Features
+
+- **Modern Framework:** Built on **Next.js 14 App Router**, fully leveraging React Server Components (RSC) and Server Actions.
+- **Elegant UI:** Crafted with **Shadcn/ui** and **Tailwind CSS** for beautiful, accessible, and highly customizable interfaces.
+- **End-to-End Type Safety:** Guaranteed by **TypeScript**, **Prisma**, and **Zod**.
+- **Powerful State Management:** Efficiently manage server state with **TanStack Query (React Query)** and lightweight client state with **Zustand**.
+- **Comprehensive Auth System:** Integrated with **Auth.js (Next-Auth) v5** for easy-to-implement route protection and session management.
+- **High-Performance Forms:** Utilizes **React Hook Form** and the **Zod** resolver for performant, type-safe form handling.
+- **Automated Code Quality:** Enforces consistent code style with **ESLint**, **Prettier**, **Husky**, and **lint-staged**.
+- **Modern Testing Suite:** Integrated with **Vitest** and **React Testing Library** for unit and component testing.
+
+## 🛠️ Tech Stack
+
+| Category              | Technology                      |
+| :-------------------- | :------------------------------ |
+| **Core Framework**    | Next.js 14+ (App Router)        |
+| **UI Library**        | React 18+                       |
+| **Styling**           | Tailwind CSS                    |
+| **Component Toolkit** | shadcn/ui                       |
+| **Server State**      | TanStack Query (React Query) v5 |
+| **Client State**      | Zustand                         |
+| **Forms**             | React Hook Form                 |
+| **Validation**        | Zod                             |
+| **Authentication**    | Auth.js (Next-Auth) v5          |
+| **Icons**             | Lucide React                    |
+| **Database ORM**      | Prisma                          |
+| **Testing**           | Vitest + React Testing Library  |
+| **Code Quality**      | ESLint, Prettier, Husky         |
+
+## 🏁 Getting Started
+
+### 1. Prerequisites
+
+- [Node.js](https://nodejs.org/en/) (v18.17 or later)
+- [pnpm](https://pnpm.io/installation) (recommended), `npm`, or `yarn`
+
+### 2. Installation
+
+1.  Clone the repository:
+    ```bash
+    git clone https://github.com/googlb/next-shadcn-starter.git
+    ```
+2.  Navigate to the project directory:
+    ```bash
+    cd next-shadcn-starter
+    ```
+3.  Install dependencies:
+    ```bash
+    pnpm install
+    ```
+
+### 3. Environment Setup
+
+1.  Copy the example environment file:
+    ```bash
+    cp .env.example .env
+    ```
+2.  Edit the `.env` file and add your database connection string:
+    ```env
+    # .env
+    DATABASE_URL="postgresql://USER:PASSWORD@HOST:PORT/DATABASE"
+    ```
+
+### 4. Database Synchronization
+
+Push your Prisma schema to your database.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pnpm prisma db push
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 5. Running the Development Server
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+pnpm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Open `http://localhost:3000` in your browser to see the application.
 
-## Learn More
+## 🏗️ Project Structure & Architecture Philosophy
 
-To learn more about Next.js, take a look at the following resources:
+The directory structure is carefully designed to promote separation of concerns and long-term maintainability.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+src/
+├── app/              # Next.js App Router (Routing & UI)
+│   ├── (auth)/       # Authentication route group
+│   ├── (dashboard)/  # Protected dashboard route group
+│   └── api/          # API routes (e.g., for Auth.js)
+├── components/       # General-purpose UI components
+│   ├── layout/       # Layout-level components (Header, Sidebar)
+│   └── ui/           # Atomic components generated by shadcn/ui
+├── lib/              # Core project logic & services
+│   ├── api/          # [CORE] Data service layer (backend interaction)
+│   ├── auth.ts       # Auth.js configuration
+│   ├── db.ts         # Prisma Client instance
+│   ├── store/        # Zustand global state stores
+│   └── types/        # Global TypeScript type definitions
+└── middleware.ts     # Next.js middleware (for route protection)
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **`src/app`**: Strictly follows the App Router best practices. Route groups `()` are used to organize layouts and routes without affecting the URL structure.
+- **`src/components`**: Home to all reusable React components. The `ui/` directory is managed automatically by shadcn/ui.
+- **`src/lib`**: The "brain" of the application. The most critical directory is **`lib/api`**, which decouples all data-fetching logic (whether calling an external API or accessing the database) from your UI components. This makes future backend migrations incredibly simple.
 
-## Deploy on Vercel
+## 🧠 Core Concepts
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 1. Data Fetching Strategy
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Initial Load:** Prioritize fetching data in **Server Components** via `async/await` by calling service functions in `lib/api/`. This ensures the fastest possible initial page load.
+- **Client-side Interaction:** For data that requires client-side interactivity (pagination, sorting, searching), use **TanStack Query (`useQuery`)** in **Client Components** to manage caching, revalidation, and loading states.
+- **Data Mutation:** Use **Server Actions** for all CUD (Create, Update, Delete) operations, triggered by `useMutation` to handle optimistic updates and cache invalidation.
+
+### 2. State Management Philosophy
+
+- **Server State:** Any data that originates from your backend. **Always** prefer to manage it with URL Search Params and **TanStack Query**.
+- **Client State:** Purely UI-related state (e.g., theme mode, sidebar toggle). **Zustand** is used for global client state that needs to be shared across multiple components.
+
+### 3. Form Handling
+
+Follows the **golden trio**: **React Hook Form** for performance and state, **Zod** for validation and type inference, **Shadcn/ui** for the UI components, and **Server Actions** for submission handling.
+
+## 📄 License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
