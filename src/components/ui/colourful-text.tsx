@@ -1,35 +1,47 @@
-"use client";
-import React from "react";
-import { motion } from "motion/react";
+'use client'
+import React, { useState, useEffect } from 'react'
+import { motion } from 'motion/react'
 
 export default function ColourfulText({ text }: { text: string }) {
   const colors = [
-    "rgb(131, 179, 32)",
-    "rgb(47, 195, 106)",
-    "rgb(42, 169, 210)",
-    "rgb(4, 112, 202)",
-    "rgb(107, 10, 255)",
-    "rgb(183, 0, 218)",
-    "rgb(218, 0, 171)",
-    "rgb(230, 64, 92)",
-    "rgb(232, 98, 63)",
-    "rgb(249, 129, 47)",
-  ];
+    'rgb(131, 179, 32)',
+    'rgb(47, 195, 106)',
+    'rgb(42, 169, 210)',
+    'rgb(4, 112, 202)',
+    'rgb(107, 10, 255)',
+    'rgb(183, 0, 218)',
+    'rgb(218, 0, 171)',
+    'rgb(230, 64, 92)',
+    'rgb(232, 98, 63)',
+    'rgb(249, 129, 47)',
+  ]
 
-  const [currentColors, setCurrentColors] = React.useState(colors);
-  const [count, setCount] = React.useState(0);
+  const [isMounted, setIsMounted] = useState(false)
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
+  const [currentColors, setCurrentColors] = React.useState(colors)
+  const [count, setCount] = React.useState(0)
 
   React.useEffect(() => {
     const interval = setInterval(() => {
-      const shuffled = [...colors].sort(() => Math.random() - 0.5);
-      setCurrentColors(shuffled);
-      setCount((prev) => prev + 1);
-    }, 5000);
+      const shuffled = [...colors].sort(() => Math.random() - 0.5)
+      setCurrentColors(shuffled)
+      setCount(prev => prev + 1)
+    }, 5000)
 
-    return () => clearInterval(interval);
-  }, []);
+    return () => clearInterval(interval)
+  }, [isMounted])
 
-  return text.split("").map((char, index) => (
+  // 在客户端挂载前，渲染一个静态的占位符
+  if (!isMounted) {
+    // 使用原始组件的 className，但不传入任何外部 className
+    return <span className="inline-block whitespace-pre font-sans tracking-tight">{text}</span>
+  }
+
+  return text.split('').map((char, index) => (
     <motion.span
       key={`${char}-${count}-${index}`}
       initial={{
@@ -39,7 +51,7 @@ export default function ColourfulText({ text }: { text: string }) {
         color: currentColors[index % currentColors.length],
         y: [0, -3, 0],
         scale: [1, 1.01, 1],
-        filter: ["blur(0px)", `blur(5px)`, "blur(0px)"],
+        filter: ['blur(0px)', `blur(5px)`, 'blur(0px)'],
         opacity: [1, 0.8, 1],
       }}
       transition={{
@@ -50,5 +62,5 @@ export default function ColourfulText({ text }: { text: string }) {
     >
       {char}
     </motion.span>
-  ));
+  ))
 }
