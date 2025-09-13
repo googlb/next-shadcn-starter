@@ -46,7 +46,7 @@ export function UserNav() {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem onClick={() => router.push('/user-profile')}>
+          <DropdownMenuItem onClick={() => router.push('/settings/profile')}>
             Profile
           </DropdownMenuItem>
           <DropdownMenuItem>Settings</DropdownMenuItem>
