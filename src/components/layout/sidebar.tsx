@@ -41,8 +41,13 @@ export default function Sidebar() {
               !isSidebarOpen && 'justify-center'
             )}
           >
-            <link.icon className="h-5 w-5" />
-            <span className={cn('transition-opacity', !isSidebarOpen && 'opacity-0')}>
+            <link.icon className="h-4 w-4" />
+            <span
+              className={cn(
+                'transition-opacity',
+                !isSidebarOpen && 'hidden'
+              )}
+            >
               {link.name}
             </span>
           </Link>

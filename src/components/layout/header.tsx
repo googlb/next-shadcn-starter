@@ -18,7 +18,7 @@ export default function Header() {
         className="md:hidden" // Visible on mobile
         onClick={toggleSidebar}
       >
-        <Menu className="h-5 w-5" />
+        <Menu className="h-4 w-4" />
         <span className="sr-only">Toggle Menu</span>
       </Button>
       
@@ -35,7 +35,7 @@ export default function Header() {
 
       <Breadcrumbs />
 
-      <div className="relative ml-auto flex items-center gap-2 md:grow-0">
+      <div className="relative ml-auto flex items-center gap-4 md:grow-0">
         <ThemeToggle />
         <UserNav />
       </div>
