@@ -1,11 +1,13 @@
 import { create } from 'zustand';
 
-type UIState = {
-  isSidebarOpen: boolean;
-  toggleSidebar: () => void;
-};
+// Define the shape of the store's state
+interface UIState {
+  // Placeholder property to avoid empty object type
+  _placeholder?: never;
+  // Future global UI state can be added here
+}
 
-export const useUIStore = create<UIState>((set) => ({
-  isSidebarOpen: true,
-  toggleSidebar: () => set((state) => ({ isSidebarOpen: !state.isSidebarOpen })),
+// Create the store
+export const useUIStore = create<UIState>(() => ({
+  // Initial state for future properties
 }));
