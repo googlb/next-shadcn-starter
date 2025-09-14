@@ -47,4 +47,5 @@ next-env.d.ts
 /doc
 GEMINI.md
 CODEBUDDY.md
-.codebuddy.json
+/.idea/
+/.next/
