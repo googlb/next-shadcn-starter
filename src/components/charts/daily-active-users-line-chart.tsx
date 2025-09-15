@@ -1,13 +1,14 @@
 'use client'
 
+import { useTheme } from 'next-themes'
+import { CartesianGrid, Line, LineChart, XAxis } from 'recharts'
+
 import {
-  Line,
-  LineChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from 'recharts'
+  ChartConfig,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from '@/components/ui/chart'
 
 // Generate mock data for the last 30 days
 const data = Array.from({ length: 30 }, (_, i) => {
@@ -19,38 +20,47 @@ const data = Array.from({ length: 30 }, (_, i) => {
   }
 })
 
+const chartConfig = {
+  users: {
+    label: 'Users',
+    theme: {
+      light: 'oklch(0.65 0.18 210)', // New --chart-2 light
+      dark: 'oklch(0.696 0.17 162.48)', // --chart-2 dark
+    },
+  },
+} satisfies ChartConfig
+
 export function DailyActiveUsersLineChart() {
+  const { theme } = useTheme()
+  const strokeColor = theme === 'dark' ? chartConfig.users.theme.dark : chartConfig.users.theme.light
+
   return (
-    <ResponsiveContainer width="100%" height={300}>
-      <LineChart data={data}>
+    <ChartContainer config={chartConfig} className="h-[300px] w-full">
+      <LineChart
+        accessibilityLayer
+        data={data}
+        margin={{
+          left: 12,
+          right: 12,
+        }}
+      >
+        <CartesianGrid vertical={false} />
         <XAxis
           dataKey="date"
-          stroke="#888888"
-          fontSize={12}
           tickLine={false}
           axisLine={false}
+          tickMargin={8}
+          tickFormatter={(value) => value.slice(0, 3)}
         />
-        <YAxis
-          stroke="#888888"
-          fontSize={12}
-          tickLine={false}
-          axisLine={false}
-          tickFormatter={(value) => `${value}`}
-        />
-        <Tooltip
-          contentStyle={{
-            backgroundColor: 'hsl(var(--background))',
-            borderColor: 'hsl(var(--border))',
-          }}
-        />
+        <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
         <Line
-          type="monotone"
           dataKey="users"
-          stroke="#adfa1d"
+          type="natural"
+          stroke={strokeColor}
           strokeWidth={2}
           dot={false}
         />
       </LineChart>
-    </ResponsiveContainer>
+    </ChartContainer>
   )
 }
