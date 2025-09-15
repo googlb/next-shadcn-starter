@@ -3,6 +3,7 @@
 import { DailyActiveUsersLineChart } from '@/components/charts/daily-active-users-line-chart'
 import { Overview } from '@/components/charts/overview'
 import { UserRegionPieChart } from '@/components/charts/user-region-pie-chart'
+import { RecentSales } from '@/components/tables/recent-sales'
 import {
   Card,
   CardContent,
@@ -52,8 +53,8 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
       </div>
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
-        <Card className="lg:col-span-2">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <Card>
           <CardHeader>
             <CardTitle>Overview</CardTitle>
           </CardHeader>
@@ -61,24 +62,31 @@ export default function DashboardPage() {
             <Overview />
           </CardContent>
         </Card>
-        <div className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Daily Active Users</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <DailyActiveUsersLineChart />
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader>
-              <CardTitle>Users by Region</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <UserRegionPieChart />
-            </CardContent>
-          </Card>
-        </div>
+        <Card>
+          <CardHeader>
+            <CardTitle>Daily Active Users</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <DailyActiveUsersLineChart />
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle>Recent Sales</CardTitle>
+            <CardDescription>You made 265 sales this month.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <RecentSales />
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle>Users by Region</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <UserRegionPieChart />
+          </CardContent>
+        </Card>
       </div>
     </>
   )
