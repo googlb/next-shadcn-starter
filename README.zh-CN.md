@@ -33,8 +33,8 @@
 
 | 类别           | 技术                            |
 | :------------- | :------------------------------ |
-| **核心框架**   | Next.js 14+ (App Router)        |
-| **UI 基础**    | React 18+                       |
+| **核心框架**   | Next.js 15+ (App Router)        |
+| **UI 基础**    | React 19+                       |
 | **样式方案**   | Tailwind CSS                    |
 | **组件库**     | shadcn/ui                       |
 | **数据获取**   | TanStack Query (React Query) v5 |

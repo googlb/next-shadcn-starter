@@ -33,8 +33,8 @@ This project aims to be an "opinionated" boilerplate. It's more than just a coll
 
 | Category              | Technology                      |
 | :-------------------- | :------------------------------ |
-| **Core Framework**    | Next.js 14+ (App Router)        |
-| **UI Library**        | React 18+                       |
+| **Core Framework**    | Next.js 15+ (App Router)        |
+| **UI Library**        | React 19+                       |
 | **Styling**           | Tailwind CSS                    |
 | **Component Toolkit** | shadcn/ui                       |
 | **Server State**      | TanStack Query (React Query) v5 |
