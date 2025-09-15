@@ -21,7 +21,7 @@ const data = Array.from({ length: 30 }, (_, i) => {
 
 export function DailyActiveUsersLineChart() {
   return (
-    <ResponsiveContainer width="100%" height={350}>
+    <ResponsiveContainer width="100%" height={300}>
       <LineChart data={data}>
         <XAxis
           dataKey="date"

@@ -1,7 +1,15 @@
 'use client'
 
+import { DailyActiveUsersLineChart } from '@/components/charts/daily-active-users-line-chart'
 import { Overview } from '@/components/charts/overview'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { UserRegionPieChart } from '@/components/charts/user-region-pie-chart'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
 
 export default function DashboardPage() {
   return (
@@ -44,14 +52,34 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
       </div>
-      <Card className="min-h-[100vh] flex-1 md:min-h-min">
-        <CardHeader>
-          <CardTitle>Overview</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Overview />
-        </CardContent>
-      </Card>
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+        <Card className="lg:col-span-2">
+          <CardHeader>
+            <CardTitle>Overview</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Overview />
+          </CardContent>
+        </Card>
+        <div className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Daily Active Users</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <DailyActiveUsersLineChart />
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle>Users by Region</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <UserRegionPieChart />
+            </CardContent>
+          </Card>
+        </div>
+      </div>
     </>
   )
 }
