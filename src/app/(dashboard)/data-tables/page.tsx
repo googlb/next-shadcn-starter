@@ -1,5 +1,6 @@
 
-import { getTasks, getTasksSchema } from "@/lib/actions/tasks.actions";
+import { getTasks } from "@/lib/actions/tasks.actions";
+import { getTasksSchema } from "@/lib/schemas/task.schemas";
 import { DataTable } from "./_components/data-table";
 import { columns } from "./_components/columns";
 

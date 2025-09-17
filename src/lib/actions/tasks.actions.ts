@@ -3,15 +3,7 @@
 import { z } from 'zod';
 import { db } from '@/lib/db';
 import { Task } from '@prisma/client';
-
-// Define the schema for fetching tasks
-export const getTasksSchema = z.object({
-  page: z.coerce.number().default(1),
-  pageSize: z.coerce.number().default(10),
-  sort: z.string().optional(),
-  // A generic string for keyword search
-  filter: z.string().optional(),
-});
+import { getTasksSchema } from '@/lib/schemas/task.schemas';
 
 type GetTasksInput = z.infer<typeof getTasksSchema>;
 
@@ -54,3 +46,22 @@ export async function getTasks(input: GetTasksInput) {
 
 // Placeholder for a more specific task type if needed later
 export type TaskWithDetails = Task;
+
+export async function deleteTask(id: string) {
+  const taskId = z.string().cuid().parse(id);
+
+  try {
+    await db.task.delete({
+      where: {
+        id: taskId,
+      },
+    });
+
+    revalidatePath('/data-tables');
+
+    return { success: true };
+  } catch (error) {
+    return { success: false, error: 'Failed to delete task.' };
+  }
+}
+
