@@ -10,6 +10,7 @@ import {
   Map,
   PieChart,
   Settings2,
+  Table2,
   Users,
 } from 'lucide-react'
 
@@ -55,6 +56,11 @@ const data = {
       url: '/dashboard',
       icon: LayoutGrid,
       isActive: true,
+    },
+    {
+      title: 'Tasks',
+      url: '/dashboard/data-tables',
+      icon: Table2,
     },
     {
       title: 'Users',
