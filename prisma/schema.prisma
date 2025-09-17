@@ -122,3 +122,42 @@ model Post {
   @@index([createdAt])
   @@map("posts")
 }
+
+// =============================================================================
+// Task Management (for Data Table feature)
+// =============================================================================
+
+enum Status {
+  PENDING
+  IN_PROGRESS
+  DONE
+  CANCELED
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+enum Label {
+  BUG
+  FEATURE
+  DOCUMENTATION
+}
+
+model Task {
+  id        String   @id @default(cuid())
+  code      String   @unique
+  title     String
+  status    Status   @default(PENDING)
+  priority  Priority @default(MEDIUM)
+  label     Label    @default(FEATURE)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status])
+  @@index([priority])
+  @@index([createdAt])
+  @@map("tasks")
+}
