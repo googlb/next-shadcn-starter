@@ -1,7 +1,11 @@
 'use client'
 
 import Header from '@/components/layout/header'
-import { AppSidebar } from '@/components/layout/app-sidebar'
+import dynamic from 'next/dynamic'
+const AppSidebar = dynamic(
+  () => import('@/components/layout/app-sidebar').then(mod => mod.AppSidebar),
+  { ssr: false }
+)
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar'
 import { QueryProvider } from '@/components/providers/query-provider'
 

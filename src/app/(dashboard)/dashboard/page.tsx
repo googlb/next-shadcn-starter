@@ -1,16 +1,22 @@
 'use client'
 
-import { DailyActiveUsersLineChart } from '@/components/charts/daily-active-users-line-chart'
-import { Overview } from '@/components/charts/overview'
-import { UserRegionPieChart } from '@/components/charts/user-region-pie-chart'
+import dynamic from 'next/dynamic'
+const DailyActiveUsersLineChart = dynamic(
+  () =>
+    import('@/components/charts/daily-active-users-line-chart').then(
+      mod => mod.DailyActiveUsersLineChart
+    ),
+  { ssr: false }
+)
+const Overview = dynamic(() => import('@/components/charts/overview').then(mod => mod.Overview), {
+  ssr: false,
+})
+const UserRegionPieChart = dynamic(
+  () => import('@/components/charts/user-region-pie-chart').then(mod => mod.UserRegionPieChart),
+  { ssr: false }
+)
 import { RecentSales } from '@/components/tables/recent-sales'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 
 export default function DashboardPage() {
   return (

@@ -2,8 +2,9 @@
 
 import { z } from 'zod';
 import { db } from '@/lib/db';
-import { Task } from '@prisma/client';
+import { Task, Prisma } from '@prisma/client';
 import { getTasksSchema } from '@/lib/schemas/task.schemas';
+import { revalidatePath } from 'next/cache';
 
 type GetTasksInput = z.infer<typeof getTasksSchema>;
 
@@ -15,15 +16,15 @@ type GetTasksInput = z.infer<typeof getTasksSchema>;
 export async function getTasks(input: GetTasksInput) {
   const { page, pageSize, sort, filter } = getTasksSchema.parse(input);
 
-  const [sortField, sortOrder] = sort?.split('.') ?? [];
+  const [sortField, sortOrder] = sort ? sort.split('.') : [];
 
-  const where = filter
+  const where: Prisma.TaskWhereInput = filter
     ? {
-        OR: [
-          { title: { contains: filter, mode: 'insensitive' } },
-          { code: { contains: filter, mode: 'insensitive' } },
-        ],
-      }
+      OR: [
+        { title: { contains: filter, mode: 'insensitive' } },
+        { code: { contains: filter, mode: 'insensitive' } },
+      ],
+    }
     : {};
 
   const [tasks, totalTasks] = await db.$transaction([
@@ -64,4 +65,3 @@ export async function deleteTask(id: string) {
     return { success: false, error: 'Failed to delete task.' };
   }
 }
-
