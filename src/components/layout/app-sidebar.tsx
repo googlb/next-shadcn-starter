@@ -59,7 +59,7 @@ const data = {
     },
     {
       title: 'Tasks',
-      url: '/data-tables',
+      url: '/tasks',
       icon: Table2,
     },
     {
