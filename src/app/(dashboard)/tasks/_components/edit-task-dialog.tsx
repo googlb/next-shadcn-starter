@@ -48,7 +48,7 @@ export function EditTaskDialog({ task, isOpen, onClose }: EditTaskDialogProps) {
     defaultValues: {
       id: task.id,
       title: task.title,
-      label: task.label ?? '',
+      label: task.label,
       status: task.status,
       priority: task.priority,
     },
@@ -75,7 +75,7 @@ export function EditTaskDialog({ task, isOpen, onClose }: EditTaskDialogProps) {
       form.reset({
         id: task.id,
         title: task.title,
-        label: task.label ?? '',
+        label: task.label,
         status: task.status,
         priority: task.priority,
       })
@@ -121,12 +121,21 @@ export function EditTaskDialog({ task, isOpen, onClose }: EditTaskDialogProps) {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Label</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Enter a label"
-                      {...field}
-                    />
-                  </FormControl>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a label" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="BUG">Bug</SelectItem>
+                      <SelectItem value="FEATURE">Feature</SelectItem>
+                      <SelectItem value="DOCUMENTATION">Documentation</SelectItem>
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}

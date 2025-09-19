@@ -21,7 +21,7 @@ export type CreateTaskValues = z.infer<typeof createTaskSchema>;
 export const updateTaskSchema = z.object({
   id: z.string(),
   title: z.string().min(1, 'Title is required.').optional(),
-  label: z.string().optional(),
+  label: z.enum(['BUG', 'FEATURE', 'DOCUMENTATION']).optional(),
   status: z.enum(['PENDING', 'IN_PROGRESS', 'DONE', 'CANCELED']).optional(),
   priority: z.enum(['LOW', 'MEDIUM', 'HIGH']).optional(),
 });

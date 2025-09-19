@@ -3,7 +3,7 @@
 import { z } from 'zod';
 import { db } from '@/lib/db';
 import { Task, Prisma } from '@prisma/client';
-import { getTasksSchema } from '@/lib/schemas/task.schemas';
+import { getTasksSchema, updateTaskSchema } from '@/lib/schemas/task.schemas';
 import { revalidatePath } from 'next/cache';
 
 type GetTasksInput = z.infer<typeof getTasksSchema>;
