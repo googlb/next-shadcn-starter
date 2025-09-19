@@ -1,6 +1,6 @@
 import { getTasks } from '@/lib/actions/tasks.actions'
 import { getTasksSchema } from '@/lib/schemas/task.schemas'
-import { DataTable } from './_components/data-table'
+import { DataTable } from '@/components/data-table/data-table'
 import { columns } from './_components/columns'
 
 interface TasksPageProps {
