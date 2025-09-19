@@ -58,10 +58,32 @@ export async function deleteTask(id: string) {
       },
     });
 
-    revalidatePath('/data-tables');
+    revalidatePath('/tasks');
 
     return { success: true };
   } catch (error) {
-    return { success: false, error: 'Failed to delete task.' };
+    return { success: false, error: String(error) };
   }
 }
+
+export async function updateTask(input: unknown) {
+  try {
+    const { id, ...dataToUpdate } = updateTaskSchema.parse(input);
+
+    const task = await db.task.update({
+      where: { id },
+      data: dataToUpdate,
+    });
+
+    revalidatePath('/tasks');
+
+    return { data: task, error: null };
+  } catch (error) {
+    // TODO: Handle validation errors more gracefully
+    if (error instanceof z.ZodError) {
+      return { data: null, error: error.message };
+    }
+    return { data: null, error: String(error) };
+  }
+}
+

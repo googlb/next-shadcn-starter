@@ -26,6 +26,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { deleteTask } from '@/lib/actions/tasks.actions';
 import { Task } from '@prisma/client';
+import { EditTaskDialog } from './edit-task-dialog';
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>;
@@ -34,6 +35,7 @@ interface DataTableRowActionsProps<TData> {
 export function DataTableRowActions<TData>({ row }: DataTableRowActionsProps<TData>) {
   const queryClient = useQueryClient();
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [showEditDialog, setShowEditDialog] = useState(false);
   const task = row.original as Task;
 
   const { mutate: deleteTaskMutation, isPending } = useMutation({
@@ -66,7 +68,7 @@ export function DataTableRowActions<TData>({ row }: DataTableRowActionsProps<TDa
             Copy task ID
           </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>Edit</DropdownMenuItem>
+          <DropdownMenuItem onSelect={() => setShowEditDialog(true)}>Edit</DropdownMenuItem>
           <DropdownMenuItem onSelect={() => setShowDeleteDialog(true)} className="text-red-600">
             Delete
           </DropdownMenuItem>
@@ -93,6 +95,12 @@ export function DataTableRowActions<TData>({ row }: DataTableRowActionsProps<TDa
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      <EditTaskDialog
+        task={task}
+        isOpen={showEditDialog}
+        onClose={() => setShowEditDialog(false)}
+      />
     </>
   );
 }
