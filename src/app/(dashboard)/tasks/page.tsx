@@ -10,8 +10,8 @@ interface TasksPageProps {
 }
 
 export default async function TasksPage({ searchParams }: TasksPageProps) {
-  const { page, pageSize, sort, filter } = searchParams
-  const search = getTasksSchema.parse({ page, pageSize, sort, filter })
+  const query = await searchParams;
+  const search = getTasksSchema.parse(query);
   const { tasks, pageCount } = await getTasks(search)
 
   return (
