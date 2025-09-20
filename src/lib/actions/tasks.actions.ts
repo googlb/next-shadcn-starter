@@ -3,10 +3,32 @@
 import { z } from 'zod';
 import { db } from '@/lib/db';
 import { Task, Prisma } from '@prisma/client';
-import { getTasksSchema, updateTaskSchema } from '@/lib/schemas/task.schemas';
+import { getTasksSchema, updateTaskSchema, createTaskSchema, CreateTaskValues, UpdateTaskValues } from '@/lib/schemas/task.schemas';
 import { revalidatePath } from 'next/cache';
 
 type GetTasksInput = z.infer<typeof getTasksSchema>;
+
+export async function createTask(input: CreateTaskValues) {
+  try {
+    const data = createTaskSchema.parse(input);
+
+    const task = await db.task.create({
+      data: {
+        ...data,
+        code: `TASK-${Math.random().toString(36).substring(2, 9).toUpperCase()}`,
+      },
+    });
+
+    revalidatePath('/tasks');
+
+    return { data: task, error: null };
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return { data: null, error: error.message };
+    }
+    return { data: null, error: String(error) };
+  }
+}
 
 /**
  * Fetches tasks from the database with pagination, sorting, and filtering.
@@ -66,7 +88,7 @@ export async function deleteTask(id: string) {
   }
 }
 
-export async function updateTask(input: unknown) {
+export async function updateTask(input: UpdateTaskValues) {
   try {
     const { id, ...dataToUpdate } = updateTaskSchema.parse(input);
 
@@ -86,4 +108,3 @@ export async function updateTask(input: unknown) {
     return { data: null, error: String(error) };
   }
 }
-
