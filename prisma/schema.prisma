@@ -147,14 +147,17 @@ enum Label {
 }
 
 model Task {
-  id        String   @id @default(cuid())
-  code      String   @unique
-  title     String
-  status    Status   @default(PENDING)
-  priority  Priority @default(MEDIUM)
-  label     Label    @default(FEATURE)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          String    @id @default(cuid())
+  code        String    @unique
+  title       String
+  description String?   @db.Text
+  dueDate     DateTime? 
+  isCompleted Boolean   @default(false)
+  status      Status    @default(PENDING)
+  priority    Priority  @default(MEDIUM)
+  label       Label     @default(FEATURE)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 
   @@index([status])
   @@index([priority])

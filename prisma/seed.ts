@@ -24,6 +24,9 @@ async function main() {
     tasks.push({
       code: `TASK-${String(i + 1).padStart(3, '0')}`,
       title: faker.hacker.phrase().replace(/^./, (letter) => letter.toUpperCase()),
+      description: faker.lorem.sentence(),
+      dueDate: faker.date.future(),
+      isCompleted: faker.datatype.boolean(),
       status: statuses[Math.floor(Math.random() * statuses.length)],
       priority: priorities[Math.floor(Math.random() * priorities.length)],
       label: labels[Math.floor(Math.random() * labels.length)],

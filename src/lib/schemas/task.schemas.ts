@@ -11,6 +11,9 @@ export const getTasksSchema = z.object({
 
 export const createTaskSchema = z.object({
   title: z.string().min(1, 'Title is required.'),
+  description: z.string().optional(),
+  dueDate: z.coerce.date().optional(),
+  isCompleted: z.boolean().optional(),
   label: z.enum(['BUG', 'FEATURE', 'DOCUMENTATION']).optional(),
   status: z.enum(['PENDING', 'IN_PROGRESS', 'DONE', 'CANCELED']).optional(),
   priority: z.enum(['LOW', 'MEDIUM', 'HIGH']).optional(),
@@ -21,6 +24,9 @@ export type CreateTaskValues = z.infer<typeof createTaskSchema>;
 export const updateTaskSchema = z.object({
   id: z.string(),
   title: z.string().min(1, 'Title is required.').optional(),
+  description: z.string().optional(),
+  dueDate: z.coerce.date().optional(),
+  isCompleted: z.boolean().optional(),
   label: z.enum(['BUG', 'FEATURE', 'DOCUMENTATION']).optional(),
   status: z.enum(['PENDING', 'IN_PROGRESS', 'DONE', 'CANCELED']).optional(),
   priority: z.enum(['LOW', 'MEDIUM', 'HIGH']).optional(),
