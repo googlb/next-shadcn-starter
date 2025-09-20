@@ -32,11 +32,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Calendar } from '@/components/ui/calendar'
 import { Switch } from '@/components/ui/switch'
 import { updateTask } from '@/lib/actions/tasks.actions'
@@ -90,6 +86,9 @@ export function EditTaskDialog({ task, isOpen, onClose }: EditTaskDialogProps) {
       form.reset({
         id: task.id,
         title: task.title,
+        description: task.description ?? '',
+        dueDate: task.dueDate ? new Date(task.dueDate) : undefined,
+        isCompleted: task.isCompleted,
         label: task.label,
         status: task.status,
         priority: task.priority,
@@ -156,22 +155,21 @@ export function EditTaskDialog({ task, isOpen, onClose }: EditTaskDialogProps) {
                     <PopoverTrigger asChild>
                       <FormControl>
                         <Button
-                          variant={"outline"}
+                          variant={'outline'}
                           className={cn(
-                            "w-[240px] pl-3 text-left font-normal",
-                            !field.value && "text-muted-foreground"
+                            'w-[240px] pl-3 text-left font-normal',
+                            !field.value && 'text-muted-foreground'
                           )}
                         >
-                          {field.value ? (
-                            format(field.value, "PPP")
-                          ) : (
-                            <span>Pick a date</span>
-                          )}
+                          {field.value ? format(field.value, 'PPP') : <span>Pick a date</span>}
                           <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                         </Button>
                       </FormControl>
                     </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
+                    <PopoverContent
+                      className="w-auto p-0"
+                      align="start"
+                    >
                       <Calendar
                         mode="single"
                         selected={field.value}
@@ -191,9 +189,7 @@ export function EditTaskDialog({ task, isOpen, onClose }: EditTaskDialogProps) {
                 <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                   <div className="space-y-0.5">
                     <FormLabel className="text-base">Completed</FormLabel>
-                    <FormDescription>
-                      Mark this task as completed.
-                    </FormDescription>
+                    <FormDescription>Mark this task as completed.</FormDescription>
                   </div>
                   <FormControl>
                     <Switch

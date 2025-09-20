@@ -12,7 +12,7 @@ export const getTasksSchema = z.object({
 export const createTaskSchema = z.object({
   title: z.string().min(1, 'Title is required.'),
   description: z.string().optional(),
-  dueDate: z.coerce.date().optional(),
+  dueDate: z.date().optional(),
   isCompleted: z.boolean().optional(),
   label: z.enum(['BUG', 'FEATURE', 'DOCUMENTATION']).optional(),
   status: z.enum(['PENDING', 'IN_PROGRESS', 'DONE', 'CANCELED']).optional(),
@@ -25,7 +25,7 @@ export const updateTaskSchema = z.object({
   id: z.string(),
   title: z.string().min(1, 'Title is required.').optional(),
   description: z.string().optional(),
-  dueDate: z.coerce.date().optional(),
+  dueDate: z.date().optional(),
   isCompleted: z.boolean().optional(),
   label: z.enum(['BUG', 'FEATURE', 'DOCUMENTATION']).optional(),
   status: z.enum(['PENDING', 'IN_PROGRESS', 'DONE', 'CANCELED']).optional(),
