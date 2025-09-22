@@ -5,6 +5,12 @@ import { ArrowUpDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Task } from '@prisma/client';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { DataTableRowActions } from './data-table-row-actions';
 
 export const columns: ColumnDef<Task>[] = [
@@ -12,7 +18,10 @@ export const columns: ColumnDef<Task>[] = [
     id: 'select',
     header: ({ table }) => (
       <Checkbox
-        checked={table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && 'indeterminate')}
+        checked={
+          table.getIsAllPageRowsSelected() ||
+          (table.getIsSomePageRowsSelected() && 'indeterminate')
+        }
         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
         aria-label="Select all"
       />
@@ -29,17 +38,34 @@ export const columns: ColumnDef<Task>[] = [
   },
   {
     accessorKey: 'code',
-    header: 'Code',
+    header: () => <div className="w-[80px]">Code</div>,
   },
   {
     accessorKey: 'title',
     header: 'Title',
+    cell: ({ row }) => {
+      const title = row.getValue('title') as string;
+      return (
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div className="w-[360px] truncate">
+                <span>{title}</span>
+              </div>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>{title}</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      );
+    },
   },
   {
     accessorKey: 'status',
     header: ({ column }) => {
       return (
-        <div className="text-center">
+        <div className="flex w-[120px] justify-center">
           <Button
             variant="ghost"
             onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
@@ -51,14 +77,18 @@ export const columns: ColumnDef<Task>[] = [
       );
     },
     cell: ({ row }) => {
-      return <div className="text-center">{row.getValue('status')}</div>;
+      return (
+        <div className="w-[120px] text-center">
+          {row.getValue('status')}
+        </div>
+      );
     },
   },
   {
     accessorKey: 'priority',
     header: ({ column }) => {
       return (
-        <div className="text-center">
+        <div className="flex w-[120px] justify-center">
           <Button
             variant="ghost"
             onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
@@ -70,26 +100,40 @@ export const columns: ColumnDef<Task>[] = [
       );
     },
     cell: ({ row }) => {
-      return <div className="text-center">{row.getValue('priority')}</div>;
+      return (
+        <div className="w-[120px] text-center">
+          {row.getValue('priority')}
+        </div>
+      );
     },
   },
   {
     accessorKey: 'createdAt',
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          Created At
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+        <div className="flex w-[150px] justify-start">
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          >
+            Created At
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        </div>
       );
     },
-    cell: ({ row }) => new Date(row.getValue('createdAt')).toLocaleDateString(),
+    cell: ({ row }) => (
+      <div className="w-[150px]">
+        {new Date(row.getValue('createdAt')).toLocaleDateString()}
+      </div>
+    ),
   },
   {
     id: 'actions',
-    cell: ({ row }) => <DataTableRowActions row={row} />,
+    cell: ({ row }) => (
+      <div className="w-[80px]">
+        <DataTableRowActions row={row} />
+      </div>
+    ),
   },
 ];
