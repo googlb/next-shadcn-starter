@@ -50,7 +50,7 @@ export function DailyActiveUsersLineChart() {
           tickLine={false}
           axisLine={false}
           tickMargin={8}
-          tickFormatter={(value) => value.slice(0, 3)}
+          tickFormatter={(value) => value.split(' ')[1]}
         />
         <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
         <Line
