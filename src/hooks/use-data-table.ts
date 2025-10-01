@@ -91,6 +91,7 @@ export function useDataTable<TData, TValue>({ columns, data, pageCount }: UseDat
     manualPagination: true,
     manualSorting: true,
     manualFiltering: true,
+    columnResizeMode: 'onChange',
   });
 
   return { table, isPending };
