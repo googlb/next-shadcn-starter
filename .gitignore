@@ -51,3 +51,12 @@ CODEBUDDY.md
 /.next/
 
 .trae/rules
+
+# IDE configs
+.vscode/
+.idea/
+
+# Tooling configs
+.codebuddy/
+.codebuddy.json
+.husky/
